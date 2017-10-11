@@ -83,7 +83,7 @@ class TFTextTransformer(Transformer, HasInputCol, HasOutputCol):
             word2vec.fit(
                 dataset.select(f.split(self.getInputCol(), "\\s+").alias(self.getInputCol()))).getVectors().rdd.map(
                 lambda p: (p.word, p.vector.values.tolist())).collect())
-        word_embedding["unk"] = np.zeros(100).tolist()
+        word_embedding["unk"] = np.zeros(self.word_dim).tolist()
         sc = JVMAPI._curr_sc()
         local_word_embedding = sc.broadcast(word_embedding)
 
@@ -105,7 +105,8 @@ class TFTextTransformer(Transformer, HasInputCol, HasOutputCol):
 
         cwti_udf = udf(convert_word_to_index, ArrayType(ArrayType(FloatType())))
         doc_martic = (dataset.withColumn(self.getOutputCol(), cwti_udf(self.getInputCol()).alias(self.getOutputCol()))
-                      .withColumn("vocab_size", lit(len(word_embedding)))
+                      .withColumn("vocab_size", lit(len(word_embedding))).withColumn("embedding_size",
+                                                                                     lit(self.word_dim))
                       )
 
         return doc_martic

@@ -48,25 +48,6 @@ def keyword_only(func):
     return wrapper
 
 
-class HasMapFun(Params):
-    mapFun = Param(Params._dummy(), "mapFun", "tensorflow map function", typeConverter=TypeConverters.identity)
-
-    def __init__(self):
-        super(HasMapFun, self).__init__()
-
-    def setMapFun(self, value):
-        """
-        Sets the value of :py:attr:`inputCol`.
-        """
-        return self._set(mapFun=value)
-
-    def getMapFun(self):
-        """
-        Gets the value of inputCol or its default value.
-        """
-        return self.getOrDefault(self.mapFun)
-
-
 class KafkaParam(Params):
     kafkaParam = Param(Params._dummy(), "kafkaParam", "kafka", typeConverter=TypeConverters.identity)
 
