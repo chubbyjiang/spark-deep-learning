@@ -3,6 +3,7 @@ def map_fun(_read_data, **args):
     EMBEDDING_SIZE = args["embedding_size"]
     feature = args['feature']
     label = args['label']
+    params = args['params']['fitParam']
     SEQUENCE_LENGTH = 64
 
     def feed_dict(batch):
@@ -80,9 +81,9 @@ def map_fun(_read_data, **args):
 
     sess.run(tf.global_variables_initializer())
 
-    for i in range(100):
+    for i in range(params.epochs):
         print("epoll {}".format(i))
-        for data in _read_data(max_records=2):
+        for data in _read_data(max_records=params.batch_size):
             batch_data = feed_dict(data)
             sess.run(train_step, feed_dict={input_x: batch_data})
 

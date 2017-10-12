@@ -58,7 +58,7 @@ class KafkaParam(Params):
         """
         Sets the value of :py:attr:`inputCol`.
         """
-        return self._set(mapFun=value)
+        return self._set(kafkaParam=value)
 
     def getKafkaParam(self):
         """
@@ -77,13 +77,32 @@ class FitParam(Params):
         """
         Sets the value of :py:attr:`inputCol`.
         """
-        return self._set(mapFun=value)
+        return self._set(fitParam=value)
 
     def getFitParam(self):
         """
         Gets the value of inputCol or its default value.
         """
         return self.getOrDefault(self.fitParam)
+
+
+class MapFnParam(Params):
+    mapFnParam = Param(Params._dummy(), "mapFnParam", "Tensorflow func", typeConverter=TypeConverters.identity)
+
+    def __init__(self):
+        super(MapFnParam, self).__init__()
+
+    def setMapFnParam(self, value):
+        """
+        Sets the value of :py:attr:`inputCol`.
+        """
+        return self._set(mapFnParam=value)
+
+    def getMapFnParam(self):
+        """
+        Gets the value of inputCol or its default value.
+        """
+        return self.getOrDefault(self.mapFnParam)
 
 
 class HasInputCol(Params):

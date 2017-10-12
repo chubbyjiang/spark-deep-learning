@@ -35,6 +35,6 @@ class TFTextTransformerTest(SparkDLTestCase):
         df = transformer.transform(documentDF)
         estimator = TFTextFileEstimator(inputCol="sentence_matrix", outputCol="sentence_matrix", labelCol="preds",
                                         kafkaParam={"host": "127.0.0.1", "topic": "test", "group_id": "sdl_1"},
-                                        fitParam={"epochs": 5, "batch_size": 64})
-        estimator.mapFun(map_fun)
+                                        fitParam=[{"epochs": 5, "batch_size": 64}, {"epochs": 5, "batch_size": 1}],
+                                        mapFnParam=map_fun)
         estimator.fit(df).collect()
